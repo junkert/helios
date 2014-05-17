@@ -9,20 +9,20 @@
   <link href="style_sheet.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="spectrum/farbtastic.css" type="text/css" />
   <style>
-    #speed_slider { margin: 50px; }
-    #color_slider { margin: 50px; }
+    #pattern_slider { margin: 50px; }
+    #hue_slider { margin: 50px; }
   </style>
   <script>
     $(function() {
-      $( "#speed_slider" ).slider({
-        min: 0,
-        max: 100000,
+      $( "#pattern_slider" ).slider({
+        min: 1,
+        max: 1000,
         stop: function(event, ui) { 
                   $.ajax({
                       cache: false,
                       url: 'update_file.php',
                       type: 'POST',
-                      data: {pattern_speed:ui.value},
+                      data: {pattern_slider:ui.value},
                       dataType: 'html',
                       //contentType: "application/json; charset=utf-8",
                       success: function(result) {
@@ -31,15 +31,15 @@
                   });
               }
           });
-        $( "#color_slider" ).slider({
-            min: 0,
-            max: 100000,
+        $( "#hue_slider" ).slider({
+            min: 1,
+            max: 1000,
             stop: function(event, ui) {
                 $.ajax({
                     cache: false,
                     url: 'update_file.php',
                     type: 'POST',
-                    data: {color_speed:ui.value},
+                    data: {hue_slider:ui.value},
                     dataType: 'html',
                     //contentType: "application/json; charset=utf-8",
                     success: function(result) {
@@ -48,15 +48,15 @@
                 });
             }
         });
-        $( "#sat_slider" ).slider({
+        $( "#saturation_slider" ).slider({
             min: 1,
-            max: 100,
+            max: 255,
             stop: function(event, ui) {
                 $.ajax({
                     cache: false,
                     url: 'update_file.php',
                     type: 'POST',
-                    data: {sat_speed:ui.value},
+                    data: {saturation_slider:ui.value},
                     dataType: 'html',
                     //contentType: "application/json; charset=utf-8",
                     success: function(result) {
@@ -65,15 +65,15 @@
                 });
             }
         });
-        $( "#bright_slider" ).slider({
+        $( "#brightness_slider" ).slider({
             min: 1,
-            max: 100,
+            max: 255,
             stop: function(event, ui) {
                 $.ajax({
                     cache: false,
                     url: 'update_file.php',
                     type: 'POST',
-                    data: {bright_slider:ui.value},
+                    data: {brightness_slider:ui.value},
                     dataType: 'html',
                     //contentType: "application/json; charset=utf-8",
                     success: function(result) {
@@ -97,11 +97,13 @@
       });
       $(document).on("click", ":submit", function() {
                   $(this).serialize();
+                  var id = $(this).attr('id');
+                  var value = $(this).val();
                   $.ajax({
                       cache: false,
                       url: 'update_file.php',
                       type: 'POST',
-                      data: {color_button:$(this).val()},
+                      data: {'id': id, 'value': value},
                       dataType: 'html',
                       //contentType: "application/json; charset=utf-8",
                       success: function(result) {
@@ -120,12 +122,12 @@
         <h1>LED Controller</h1>
     </div>
     <div style="float: left; width: 33%;">
-        <h1>Pattern</h1>
-        <p><input type="submit" value="Fader" id='color_button'/></p>
-        <p><input type="submit" value="FadeTail" id='color_button'/></p>
-        <p><input type="submit" value="SingleTail" id='color_button'/></p>
-        <p><input type="submit" value="Sequence" id='color_button'/></p>
-        <p>Speed: <div id="speed_slider"></div></p>
+        <h1>Design Patterns</h1>
+        <p><input type="submit" value="Fader" id='pattern_button'/></p>
+        <p><input type="submit" value="FadeTail" id='pattern_button'/></p>
+        <p><input type="submit" value="SingleTail" id='pattern_button'/></p>
+        <p><input type="submit" value="Sequence" id='pattern_button'/></p>
+        <p>Pattern Speed: <div id="pattern_slider"></div></p>
     </div>
     <div style="float: left; width: 33%;">
         <h1>Color Patterns</h1>
@@ -137,11 +139,11 @@
         <p><div id="colorpicker"></div></p>
     </div>
     <div style="float: left; width: 33%;">
-        <h1>Color Fader Controls</h1>
+        <h1>Rainbow Controls</h1>
         <p></p>
-        <p>Hue Speed: <div id="color_slider"></div></p>
-        <p>Saturation: <div id="sat_slider"></div></p>
-        <p>Brightness: <div id="bright_slider"></div></p>
+        <p>Hue Speed: <div id="hue_slider"></div></p>
+        <p>Saturation: <div id="saturation_slider"></div></p>
+        <p>Brightness: <div id="brightness_slider"></div></p>
     </div>
   </div>
 </div>
