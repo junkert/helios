@@ -1,0 +1,152 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>LED Controller</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <script type="text/javascript" src="spectrum/farbtastic.js"></script>
+  <link href="style_sheet.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="spectrum/farbtastic.css" type="text/css" />
+  <style>
+    #speed_slider { margin: 50px; }
+    #color_slider { margin: 50px; }
+  </style>
+  <script>
+    $(function() {
+      $( "#speed_slider" ).slider({
+        min: 0,
+        max: 100000,
+        stop: function(event, ui) { 
+                  $.ajax({
+                      cache: false,
+                      url: 'update_file.php',
+                      type: 'POST',
+                      data: {pattern_speed:ui.value},
+                      dataType: 'html',
+                      //contentType: "application/json; charset=utf-8",
+                      success: function(result) {
+                        $("#asdf").append(result);
+                      }
+                  });
+              }
+          });
+        $( "#color_slider" ).slider({
+            min: 0,
+            max: 100000,
+            stop: function(event, ui) {
+                $.ajax({
+                    cache: false,
+                    url: 'update_file.php',
+                    type: 'POST',
+                    data: {color_speed:ui.value},
+                    dataType: 'html',
+                    //contentType: "application/json; charset=utf-8",
+                    success: function(result) {
+                        $("#asdf").append(result);
+                    }
+                });
+            }
+        });
+        $( "#sat_slider" ).slider({
+            min: 1,
+            max: 100,
+            stop: function(event, ui) {
+                $.ajax({
+                    cache: false,
+                    url: 'update_file.php',
+                    type: 'POST',
+                    data: {sat_speed:ui.value},
+                    dataType: 'html',
+                    //contentType: "application/json; charset=utf-8",
+                    success: function(result) {
+                        $("#asdf").append(result);
+                    }
+                });
+            }
+        });
+        $( "#bright_slider" ).slider({
+            min: 1,
+            max: 100,
+            stop: function(event, ui) {
+                $.ajax({
+                    cache: false,
+                    url: 'update_file.php',
+                    type: 'POST',
+                    data: {bright_slider:ui.value},
+                    dataType: 'html',
+                    //contentType: "application/json; charset=utf-8",
+                    success: function(result) {
+                        $("#asdf").append(result);
+                    }
+                });
+            }
+        });
+       $( "#colorpicker" ).farbtastic(function(color){
+                  $.ajax({
+                      cache: false,
+                      url: 'update_file.php',
+                      type: 'POST',
+                      data: {color_value:color},
+                      dataType: 'html',
+                      //contentType: "application/json; charset=utf-8",
+                      success: function(result) {
+                        $("#asdf").append(result);
+                      }
+                  });
+      });
+      $(document).on("click", ":submit", function() {
+                  $(this).serialize();
+                  $.ajax({
+                      cache: false,
+                      url: 'update_file.php',
+                      type: 'POST',
+                      data: {color_button:$(this).val()},
+                      dataType: 'html',
+                      //contentType: "application/json; charset=utf-8",
+                      success: function(result) {
+                        $("#asdf").append(result);
+                      }
+                  });
+       }); 
+      
+});
+  
+  </script>
+</head>
+<body bgcolor='#000000' text='#FFFFFF'>
+<div id="container">
+    <div id="top">
+        <h1>LED Controller</h1>
+    </div>
+    <div style="float: left; width: 33%;">
+        <h1>Pattern</h1>
+        <p><input type="submit" value="Fader" id='color_button'/></p>
+        <p><input type="submit" value="FadeTail" id='color_button'/></p>
+        <p><input type="submit" value="SingleTail" id='color_button'/></p>
+        <p><input type="submit" value="Sequence" id='color_button'/></p>
+        <p>Speed: <div id="speed_slider"></div></p>
+    </div>
+    <div style="float: left; width: 33%;">
+        <h1>Color Patterns</h1>
+        <p><input type="submit" value="black" id='color_button' /></p>
+        <p><input type="submit" value="white" id='color_button' /></p>
+        <p><input type="submit" value="rainbow" id='color_button' /></p>
+        <p>Single Color</p>
+        <p><input type="submit" value="spectrum" id='color_button' /></p>
+        <p><div id="colorpicker"></div></p>
+    </div>
+    <div style="float: left; width: 33%;">
+        <h1>Color Fader Controls</h1>
+        <p></p>
+        <p>Hue Speed: <div id="color_slider"></div></p>
+        <p>Saturation: <div id="sat_slider"></div></p>
+        <p>Brightness: <div id="bright_slider"></div></p>
+    </div>
+  </div>
+</div>
+ 
+ 
+</body>
+</html>
+
