@@ -5,6 +5,7 @@ Helios is a web driven LED controller for the Raspberry Pi and LPD8806 RGB-LED r
 
 ---
 REQUIREMENTS:
+
 1. Raspberry Pi v2
 2. JQuery >= 2.0.2
 3. LPD8806 - Levi Junkert's fork
